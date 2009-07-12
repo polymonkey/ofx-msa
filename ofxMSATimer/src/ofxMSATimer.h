@@ -39,11 +39,11 @@ public:
 	ofxMSATimer();
 	
 	inline double getTotalTime();			// elapsed seconds since beginning of time
-	inline double getAppTime();			// elapsed seconds since start of app
+	inline double getAppTime();				// elapsed seconds since start of app
 	inline double getTimeSinceLastCall();	// elapsed seconds since last time this function was called
 	
 	inline void setStartTime();			
-	inline double getElapsedTime();		// elapsed seconds since you called setStartPoint()
+	inline double getElapsedTime();			// elapsed seconds since you called setStartTime()
 	
 protected:
 	double machMultiplier;
