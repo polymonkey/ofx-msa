@@ -43,6 +43,8 @@ void msaDrawFPS();
 void msaDrawFPS(int x, int y);
 void msaDrawFPS(int color);
 
+void msaDumpFPS(float seconds);
+
 void msaSetCursor(bool forceOn = false);
 
 inline void msaConstrain(float &pos, float &vel, float min, float max, float bounce = 1);

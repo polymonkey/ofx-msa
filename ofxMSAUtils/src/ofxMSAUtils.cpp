@@ -57,6 +57,16 @@ void msaDrawFPS(int color) {
 	ofDrawBitmapString(fpsStr, 20, ofGetHeight()-20);
 }
 
+void msaDumpFPS(float seconds) {
+	static float lastTimeDumped = 0;
+	float nowTime = ofGetElapsedTimef();
+	if(nowTime - lastTimeDumped > seconds) {
+		printf("FPS: %f\n", ofGetFrameRate());
+		lastTimeDumped = nowTime;
+	}
+	
+}
+
 
 void msaSetCursor(bool forceOn) {
 	if(forceOn || ofGetWindowMode() == OF_WINDOW) ofShowCursor();
