@@ -387,6 +387,9 @@ void ofxMSAFluidSolver::update() {
 	}
 }
 
+#define ZERO_THRESH		0.000001			// if value falls under this, set to zero (to avoid denormal slowdown)
+#define CHECK_ZERO(p)	if(fabsf(p)<ZERO_THRESH) p = 0
+
 void ofxMSAFluidSolver::fadeR() {
 	// I want the fluid to gradually fade out so the screen doesn't fill. the amount it fades out depends on how full it is, and how uniform (i.e. boring) the fluid is...
 	//		float holdAmount = 1 - _avgDensity * _avgDensity * fadeSpeed;	// this is how fast the density will decay depending on how full the screen currently is
@@ -401,8 +404,7 @@ void ofxMSAFluidSolver::fadeR() {
 	//	float uniformityMult = uniformity * 0.05f;
 	
 	_avgSpeed = 0;
-	for (int i = _numCells-1; i >=0; --i)
-	{
+	for (int i = _numCells-1; i >=0; --i) {
 		// clear old values
 		uOld[i] = vOld[i] = 0; 
 		rOld[i] = 0;
@@ -413,6 +415,7 @@ void ofxMSAFluidSolver::fadeR() {
 		
 		// calc avg density
 		tmp_r = MIN( 1.0f, r[i] );
+		
 		//		g[i] = MIN(1.0f, g[i]);
 		//		b[i] = MIN(1.0f, b[i]);
 		//		float density = MAX(r[i], MAX(g[i], b[i]));
@@ -424,6 +427,12 @@ void ofxMSAFluidSolver::fadeR() {
 		
 		// fade out old
 		r[i] = tmp_r * holdAmount;
+		
+		CHECK_ZERO(r[i]);
+		CHECK_ZERO(u[i]);
+		CHECK_ZERO(v[i]);
+		if(doVorticityConfinement) CHECK_ZERO(curl[i]);
+		
 	}
 	_avgDensity *= _invNumCells;
 	//	_avgSpeed *= _invNumCells;
@@ -473,6 +482,12 @@ void ofxMSAFluidSolver::fadeRGB() {
 		g[i] = tmp_g * holdAmount;
 		b[i] = tmp_b * holdAmount;
 		
+		CHECK_ZERO(r[i]);
+		CHECK_ZERO(g[i]);
+		CHECK_ZERO(b[i]);
+		CHECK_ZERO(u[i]);
+		CHECK_ZERO(v[i]);
+		if(doVorticityConfinement) CHECK_ZERO(curl[i]);
 	}
 	_avgDensity *= _invNumCells;
 	_avgSpeed *= _invNumCells;
