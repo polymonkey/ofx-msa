@@ -387,7 +387,7 @@ void ofxMSAFluidSolver::update() {
 	}
 }
 
-#define ZERO_THRESH		0.000001			// if value falls under this, set to zero (to avoid denormal slowdown)
+#define ZERO_THRESH		1e-9			// if value falls under this, set to zero (to avoid denormal slowdown)
 #define CHECK_ZERO(p)	if(fabsf(p)<ZERO_THRESH) p = 0
 
 void ofxMSAFluidSolver::fadeR() {
