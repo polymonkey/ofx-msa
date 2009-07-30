@@ -147,7 +147,7 @@ public:
 	// accessors for  color diffusion
 	// if diff == 0, color diffusion is not performed
 	// ** COLOR DIFFUSION IS SLOW!
-	void				setColorDiffusion( float diff );
+	ofxMSAFluidSolver& setColorDiffusion( float diff );
 	float				getColorDiffusion();
 	
 	ofxMSAFluidSolver& enableRGB(bool isRGB);

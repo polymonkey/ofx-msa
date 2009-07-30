@@ -43,6 +43,8 @@ ofxMSAFluidDrawer::ofxMSAFluidDrawer() {
 	_fluidSolver		= NULL;
 	_didICreateTheFluid	= false;
 	alpha				= 1;
+	enableAlpha(false);
+	
 	setDrawMode(FLUID_DRAW_COLOR);
 }
 
@@ -75,15 +77,27 @@ ofxMSAFluidSolver* ofxMSAFluidDrawer::getFluidSolver() {
 	return _fluidSolver;
 }
 
+void ofxMSAFluidDrawer::enableAlpha(bool b) {
+	_alphaEnabled = b;
+	if(_alphaEnabled) {
+		_glType = GL_RGBA;
+		_bpp = 4;
+	} else {
+		_glType = GL_RGB;
+		_bpp = 3;
+	}
+}
+
+
 void ofxMSAFluidDrawer::createTexture() {
 	if(_pixels) delete []_pixels;
 	int texWidth = _fluidSolver->getWidth()-2;
 	int texHeight =_fluidSolver->getHeight()-2;
 
-	_pixels = new unsigned char[texWidth * texHeight * 4];
+	_pixels = new unsigned char[texWidth * texHeight * _bpp];
 
 #ifdef FLUID_TEXTURE
-	tex.allocate(texWidth, texHeight, GL_RGBA);
+	tex.allocate(texWidth, texHeight, _glType);
 #endif
 }
 
@@ -182,12 +196,12 @@ void ofxMSAFluidDrawer::drawColor(float x, float y, float renderWidth, float ren
 			int r = _pixels[index++] = (unsigned char)MIN(color.x * 255 * alpha, 255);
 			int g = _pixels[index++] = (unsigned char)MIN(color.y * 255 * alpha, 255);
 			int b = _pixels[index++] = (unsigned char)MIN(color.z * 255 * alpha, 255);
-			int a = _pixels[index++] = withAlpha ? MAX(b, MAX(r, g)) : 255;
+			if(_alphaEnabled) int a = _pixels[index++] = withAlpha ? MAX(b, MAX(r, g)) : 255;
 		}
 	}
 
 #ifdef FLUID_TEXTURE
-	tex.loadData(_pixels, (int)tex.getWidth(), (int)tex.getHeight(), GL_RGBA);
+	tex.loadData(_pixels, (int)tex.getWidth(), (int)tex.getHeight(), _glType);
 	tex.draw(x, y, renderWidth, renderHeight);
 #endif
 }
@@ -208,13 +222,13 @@ void ofxMSAFluidDrawer::drawMotion(float x, float y, float renderWidth, float re
 			int r = _pixels[index++] = (unsigned char)MIN(fabs(vel.x) * fw * 255 * alpha, 255);
 			int g = _pixels[index++] = (unsigned char)MIN(fabs(vel.y) * fh * 255 * alpha, 255);
 			int b = _pixels[index++] = (unsigned char)0;
-			int a = _pixels[index++] = withAlpha ? speed : 255;
+			if(_alphaEnabled) int a = _pixels[index++] = withAlpha ? speed : 255;
 
 		}
 	}
 
 #ifdef FLUID_TEXTURE
-	tex.loadData(_pixels, (int)tex.getWidth(), (int)tex.getHeight(), GL_RGBA);
+	tex.loadData(_pixels, (int)tex.getWidth(), (int)tex.getHeight(), _glType);
 	tex.draw(x, y, renderWidth, renderHeight);
 #endif
 }
@@ -234,12 +248,12 @@ void ofxMSAFluidDrawer::drawSpeed(float x, float y, float renderWidth, float ren
 			int r = _pixels[index++] = (unsigned char)speed;
 			int g = _pixels[index++] = (unsigned char)speed;
 			int b = _pixels[index++] = (unsigned char)speed;
-			int a = _pixels[index++] = withAlpha ? speed : 255;
+			if(_alphaEnabled) int a = _pixels[index++] = withAlpha ? speed : 255;
 		}
 	}
 
 #ifdef FLUID_TEXTURE
-	tex.loadData(_pixels, (int)tex.getWidth(), (int)tex.getHeight(), GL_RGBA);
+	tex.loadData(_pixels, (int)tex.getWidth(), (int)tex.getHeight(), _glType);
 	tex.draw(x, y, renderWidth, renderHeight);
 #endif
 }

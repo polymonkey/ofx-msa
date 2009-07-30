@@ -244,9 +244,10 @@ float ofxMSAFluidSolver::getVisc() {
 	return viscocity;
 }
 
-void	ofxMSAFluidSolver::setColorDiffusion( float diff )
+ofxMSAFluidSolver& ofxMSAFluidSolver::setColorDiffusion( float diff )
 {
 	colorDiffusion = diff;
+	return *this;
 }
 
 float	ofxMSAFluidSolver::getColorDiffusion()

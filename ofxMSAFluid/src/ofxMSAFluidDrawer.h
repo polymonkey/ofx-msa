@@ -60,6 +60,8 @@ public:
 	ofxMSAFluidSolver* setup(ofxMSAFluidSolver* f);
 	ofxMSAFluidSolver* getFluidSolver();
 	
+	void enableAlpha(bool b);
+	
 	void update();
 	
 	virtual void draw(float x = 0, float y = 0);
@@ -94,7 +96,11 @@ public:
 protected:	
 	unsigned char		*_pixels;						// pixels array to be drawn
 	int					_byteCount;						// number of byes in the pixel array (size * 3)
+
 #ifdef FLUID_TEXTURE
+	int					_glType;						// GL_RGB or GL_RGBA
+	bool				_alphaEnabled;
+	int					_bpp;							// 3 or 4
 	ofTexture			tex;
 #endif	
 	
