@@ -54,7 +54,7 @@ ofxSimpleGuiToo::ofxSimpleGuiToo() {
 	headerPage->addToggle("Auto Save", &doAutoSave);
 	headerPage->addButton("Save Settings", &doSave);
 	headerPage->addButton("Backup XML", &doSaveBackup);
-	headerPage->addFPSCounter();
+//	headerPage->addFPSCounter();
 
 	addPage();
 	setAutoSave(false);
