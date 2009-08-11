@@ -6,9 +6,9 @@ here you put the bullet source files. I'm not including them because they are up
 
 so now you should have
 
-ofxBulletPhysics / lib / bullet and inside that
-   btBulletCollisionCommon
-  btBulletDynamicsCommon
+ofxBulletPhysics / lib / bullet and inside that:
+  btBulletCollisionCommon.h
+  btBulletDynamicsCommon.h
   etc.
 
 I've also included a sample screenshot of the folder structure
