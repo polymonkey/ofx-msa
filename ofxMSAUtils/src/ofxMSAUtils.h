@@ -38,6 +38,9 @@
 #include "ofxDirList.h"
 #endif
 
+#define msaDelPointer(p)	if(p) { delete p; p = NULL; }
+#define msaDelArray(p)		if(p) { delete []p; p = NULL; }
+
 void msaClear();
 
 void msaDrawFPS();
@@ -48,8 +51,8 @@ void msaDumpFPS(float seconds);
 
 void msaSetCursor(bool forceOn = false);
 
-inline void msaConstrain(float &pos, float &vel, float min, float max, float bounce = 1);
-inline void msaConstrain(ofPoint &pos, ofPoint &vel, ofPoint &min, ofPoint &max, float bounce = 1);
+void msaConstrain(float &pos, float &vel, float min, float max, float bounce = 1);
+void msaConstrain(ofPoint &pos, ofPoint &vel, ofPoint &min, ofPoint &max, float bounce = 1);
 
 inline void msaDrawQuadAtCorner();
 inline void msaDrawQuadAtCenter();
@@ -64,6 +67,55 @@ inline int msaMod(int dividend, int divisor) {
 }
 
 
+
+/***************************************************************/
+
+struct msaParam {
+	float current;
+	float target;
+	float lerpSpeed;
+	
+	msaParam() {
+		lerpSpeed = 0.1;
+	}
+	
+	void setCurrent(float f) {
+		current = f;
+	}
+	
+	void setTarget(float f) {
+		target = f;
+	}
+	
+	void set(float f) {
+		current = target = f;
+	}
+	
+	void setSpeed(float f) {
+		lerpSpeed = f;
+	}
+	
+	void snapToTarget() {
+		current = target;
+	}
+	
+	void update(float thresh = 0) { //0.001f) {
+		float diff = target - current;
+		diff *= lerpSpeed;
+		if(thresh == 0) {
+			current += diff;
+		} else {
+			if(current!=0) {		// avoid divide by zero
+				if(fabs(diff/current) > thresh) current += diff;	// if change is bigger than % then lerp
+			} else {				// if current is zero
+				if(target !=0 && fabs(diff/target) > thresh) current += diff;	// if change is bigger than % then lerp
+			}
+		}
+	}
+	
+};
+
+
 /***************************************************************/
 #ifdef OFX_DIRLIST
 class msaImageManager {
@@ -71,7 +123,7 @@ public:
 	vector<ofImage>		images;
 	int currentIndex;
 	
-	void setup(string path, const char *ext, string* md5 = NULL) {
+	void setup(string path, const char *ext = NULL, string* md5 = NULL) {
 		currentIndex = 0;
 		ofxDirList DIR;
 		if(ext) DIR.allowExt(ext);
@@ -80,11 +132,13 @@ public:
 		
 		printf("msaImageManager::setup( %s ) | %i files loaded\n", path.c_str(), numImages);
 		for(int i = 0; i < numImages; i++) {
+#ifdef OFX_MSADATAPROTECTOR
 			if(md5) {
 				ofxMSACheckFileMD5(DIR.getPath(i), md5[i], true);
 			} else {
 				ofxMSACheckFileMD5(DIR.getPath(i), "", false);
 			}
+#endif			
 			string filename = DIR.getPath(i);
 			printf("   loading %s\n", filename.c_str());
 			ofImage img;
