@@ -497,13 +497,13 @@ void ofxRenderManager::_mouseDragged(ofMouseEventArgs &e) {
 
 void ofxRenderManager::setupUI(ofxSimpleGuiToo &ui) {
 	ui.addPage("Render Manager");
-	ui.addSlider("screenStartPos", &screenStartPos, 0, 1920);
-	ui.addToggle("enabled ", &enabled );
-	ui.addToggle("doDrawConfig", &doDrawConfig);
-	ui.addToggle("doDrawOrig", &doDrawOrig);
-	ui.addButton("doReset", &doReset);
-	ui.addButton("doSave", &doSave);
-	ui.addButton("doLoad", &doLoad);
+	ui.addSlider("screenStartPos", screenStartPos, 0, 1920);
+	ui.addToggle("enabled ", enabled );
+	ui.addToggle("doDrawConfig", doDrawConfig);
+	ui.addToggle("doDrawOrig", doDrawOrig);
+	ui.addButton("doReset", doReset);
+	ui.addButton("doSave", doSave);
+	ui.addButton("doLoad", doLoad);
 
 //	ui.loadFromXML();
 }
