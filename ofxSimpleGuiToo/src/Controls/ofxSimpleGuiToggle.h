@@ -8,12 +8,19 @@ class ofxSimpleGuiToggle : public ofxSimpleGuiControl {
 	
 public:
 	bool	*value;
+	bool	momentary;
 	
 	//---------------------------------------------------------------------
-	ofxSimpleGuiToggle(string name, bool *value) : ofxSimpleGuiControl(name) {
-		this->value	= value;
+	ofxSimpleGuiToggle(string name, bool &value) : ofxSimpleGuiControl(name) {
+		this->value	= &value;
+		setMomentary(false);
 		controlType = "Toggle";
 		setup();
+	}
+	
+	ofxSimpleGuiToggle& setMomentary(bool m) {
+		momentary = m;
+		return *this;
 	}
 	
 	
@@ -45,17 +52,29 @@ public:
 	}
 
 	void onPress(int x, int y, int button) {
-		toggle();
+		if(momentary) set(true);
+		else toggle();
+	}
+	
+	void onRelease(int x, int y, int button) {
+		if(momentary) set(false);
 	}
 
-	//---------------------------------------------------------------------		
+	void keyPressed( int key ) {
+		if(key==keyboardShortcut) onPress(0, 0, 0);
+	}
+	
+	void keyReleased( int key ) {
+		if(key==keyboardShortcut) onRelease(0, 0, 0);
+	}
+	
+	void onKeyEnter() {
+		toggle();
+	}
+	
 	void update() {
 		if(!enabled) return;
 		enabled = false;
-	}
-
-	void onKeyEnter() {
-		toggle();
 	}
 	
 	void draw(float x, float y) {

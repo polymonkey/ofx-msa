@@ -42,22 +42,26 @@
 
 class ofxSimpleGuiControl : public ofxMSAInteractiveObject {
 public:
-	string		name;		// Human readable name this is what is displayed on screen
+	string		name;		// Human readable name this is what is displayed on screen (includes keyboard shortcut)
+	string		origName;	// the original name (excluding keyboard shortcut)
 	string		key;		// Machine readable name (don't change this after creating control, used for saving/loading)
 	string		controlType;
 	bool		lock;
 	bool		focused;
+	bool		newColumn;
+	char		keyboardShortcut;
 
 	ofxSimpleGuiControl(string name);
-	void setName(string newName);
-	void setKey(string newKey);
-	void setConfig(ofxSimpleGuiConfig *config);
+	ofxSimpleGuiControl& setName(string newName);
+	ofxSimpleGuiControl& setKey(string newKey);
+	ofxSimpleGuiControl& setConfig(ofxSimpleGuiConfig *config);
 
-	void setTextColor(bool clickable = true);
-	void setTextBGColor(bool clickable = true);
-	void setFullColor(bool forceActive = false);
-	void setEmptyColor();
-
+	ofxSimpleGuiControl& setTextColor(bool clickable = true);
+	ofxSimpleGuiControl& setTextBGColor(bool clickable = true);
+	ofxSimpleGuiControl& setFullColor(bool forceActive = false);
+	ofxSimpleGuiControl& setEmptyColor();
+	ofxSimpleGuiControl& setKeyboardShortcut(char c);
+	
 	virtual void loadFromXML(ofxXmlSettings &XML) {}
 	virtual void saveToXML(ofxXmlSettings &XML) {}
 

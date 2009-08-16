@@ -37,10 +37,10 @@ public:
 
 		//Buttons
 		doPause = false;
-		pauseBtn = new ofxSimpleGuiButton("Pause", &doPause);
-		cue1Btn  = new ofxSimpleGuiButton("Cue 1", &cue_1);
-		cue2Btn  = new ofxSimpleGuiButton("Cue 2", &cue_2);
-		resetBtn = new ofxSimpleGuiButton("Reset", &resetCue);
+		pauseBtn = new ofxSimpleGuiButton("Pause", doPause);
+		cue1Btn  = new ofxSimpleGuiButton("Cue 1", cue_1);
+		cue2Btn  = new ofxSimpleGuiButton("Cue 2", cue_2);
+		resetBtn = new ofxSimpleGuiButton("Reset", resetCue);
 
 		pauseBtn->setToggleMode(true);
 		resetCue = false;

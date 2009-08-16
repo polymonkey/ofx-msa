@@ -14,11 +14,12 @@ public:
 	bool			beenPressed;
 	
 	//---------------------------------------------------------------------
-	ofxSimpleGuiTitle(string name, bool *value = NULL) : ofxSimpleGuiControl(name) {
+	ofxSimpleGuiTitle(string name) : ofxSimpleGuiControl(name) {
 		beToggle	= false;
 		beenPressed = false;
-		this->value	= value;
+//		this->value	= &value;
 		controlType = "Title";
+		newColumn	= true;
 		setup();
 	}
 	
@@ -79,7 +80,8 @@ public:
 		
 		ofEnableAlphaBlending();
 		ofFill();
-		setTextBGColor(value != NULL);
+//		setTextBGColor(value != NULL);
+		ofSetColor(0, 0, 0);
 		ofRect(0, 0, width, height);
 		
 		// if a toggle

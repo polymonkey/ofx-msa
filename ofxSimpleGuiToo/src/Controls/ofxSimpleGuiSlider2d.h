@@ -9,10 +9,10 @@ public:
 	ofPoint		point, min, max;
 
 	//--------------------------------------------------------------------- construct
-	ofxSimpleGuiSlider2d(string name, ofPoint* value, float xmin, float xmax, float ymin, float ymax) : ofxSimpleGuiControl(name) {
+	ofxSimpleGuiSlider2d(string name, ofPoint& value, float xmin, float xmax, float ymin, float ymax) : ofxSimpleGuiControl(name) {
 		min.set(xmin, ymin);
 		max.set(xmax, ymax);
-		this->value = value;
+		this->value = &value;
 		controlType = "Slider2D";
 		setup();
 	}

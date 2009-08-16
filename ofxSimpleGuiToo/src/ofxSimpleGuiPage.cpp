@@ -66,6 +66,7 @@ float ofxSimpleGuiPage::getNextY(float y) {
 	return (iy) * config->gridSize.y;
 }
 
+
 void ofxSimpleGuiPage::draw(float x, float y, bool alignRight) {
 	setPos(x += config->offset.x, y += config->offset.y);
 	if(alignRight) x = ofGetWidth() - x -  config->gridSize.x;
@@ -76,72 +77,81 @@ void ofxSimpleGuiPage::draw(float x, float y, bool alignRight) {
 	ofSetRectMode(OF_RECTMODE_CORNER);
 
 	for(int i=0; i<controls.size(); i++) {
-		float controlX = posX + x;
-		float controlY = posY + y;
+		ofxSimpleGuiControl &control = *controls[i];
 
-		controls[i]->draw(controlX, controlY);
-		ofNoFill();
-		ofSetColor(config->borderColor);
-		glLineWidth(0.5f);
-		ofRect(controlX, controlY, controls[i]->width, controls[i]->height);
-		posY = getNextY(posY + controls[i]->height + config->padding.y);
-
-		if(posY + y >= height - controls[i]->height - config->padding.y) {
+		if(control.newColumn) {
 			if(alignRight) posX -= config->gridSize.x;
 			else posX += config->gridSize.x;
 			posY = 0;
 		}
+		
+		float controlX = posX + x;
+		float controlY = posY + y;
+		
+		control.draw(controlX, controlY);
+		ofNoFill();
+		ofSetColor(config->borderColor);
+		glLineWidth(0.5f);
+		ofRect(controlX, controlY, control.width, control.height);
+		posY = getNextY(posY + control.height + config->padding.y);
+
+		if(posY + y >= height - control.height - config->padding.y) {
+			if(alignRight) posX -= config->gridSize.x;
+			else posX += config->gridSize.x;
+			posY = 0;
+		}
+		
 		//		if(guiFocus == controls[i]->guiID) controls[i]->focused = true;		// MEMO
 		//		else							   controls[i]->focused = false;
 	}
 }
 
 
-ofxSimpleGuiControl *ofxSimpleGuiPage::addControl(ofxSimpleGuiControl* control) {
-	controls.push_back(control);
-	width += control->width + config->padding.x;
+ofxSimpleGuiControl &ofxSimpleGuiPage::addControl(ofxSimpleGuiControl& control) {
+	controls.push_back(&control);
+	width += control.width + config->padding.x;
 	return control;
 }
 
-ofxSimpleGuiButton *ofxSimpleGuiPage::addButton(string name, bool *value) {
-	return (ofxSimpleGuiButton *)addControl(new ofxSimpleGuiButton(name, value));
+ofxSimpleGuiButton &ofxSimpleGuiPage::addButton(string name, bool &value) {
+	return (ofxSimpleGuiButton &)addControl(* new ofxSimpleGuiButton(name, value));
 }
 
-ofxSimpleGuiContent *ofxSimpleGuiPage::addContent(string name, ofBaseDraws *content, float fixwidth) {
+ofxSimpleGuiContent &ofxSimpleGuiPage::addContent(string name, ofBaseDraws &content, float fixwidth) {
 	if(fixwidth == -1) fixwidth = config->gridSize.x - config->padding.x;
-	return (ofxSimpleGuiContent *)addControl(new ofxSimpleGuiContent(name, content, fixwidth));
+	return (ofxSimpleGuiContent &)addControl(* new ofxSimpleGuiContent(name, content, fixwidth));
 }
 
-ofxSimpleGuiFPSCounter *ofxSimpleGuiPage::addFPSCounter() {
-	return (ofxSimpleGuiFPSCounter *)addControl(new ofxSimpleGuiFPSCounter());
+ofxSimpleGuiFPSCounter &ofxSimpleGuiPage::addFPSCounter() {
+	return (ofxSimpleGuiFPSCounter &)addControl(* new ofxSimpleGuiFPSCounter());
 }
 
-//ofxSimpleGuiQuadWarp *ofxSimpleGuiPage::addQuadWarper(string name, float x, float y, float sw, float sh, ofPoint **pts) {
-//	return (ofxSimpleGuiQuadWarp *)addControl(new ofxSimpleGuiQuadWarp(name, x, y, sw, sh, pts));
+//ofxSimpleGuiQuadWarp &ofxSimpleGuiPage::addQuadWarper(string name, float x, float y, float sw, float sh, ofPoint &&pts) {
+//	return (ofxSimpleGuiQuadWarp &)addControl(* new ofxSimpleGuiQuadWarp(name, x, y, sw, sh, pts));
 //}
 //
-//ofxSimpleGuiMovieSlider *ofxSimpleGuiPage::addMovieSlider(string name, ofVideoPlayer* input) {
-//	return (ofxSimpleGuiMovieSlider *)addControl(new ofxSimpleGuiMovieSlider(name, input));
+//ofxSimpleGuiMovieSlider &ofxSimpleGuiPage::addMovieSlider(string name, ofVideoPlayer& input) {
+//	return (ofxSimpleGuiMovieSlider &)addControl(* new ofxSimpleGuiMovieSlider(name, input));
 //}
 
-ofxSimpleGuiSliderInt *ofxSimpleGuiPage::addSlider(string name, int *value, int min, int max) {
-	return (ofxSimpleGuiSliderInt *)addControl(new ofxSimpleGuiSliderInt(name, value, min, max, 0));
+ofxSimpleGuiSliderInt &ofxSimpleGuiPage::addSlider(string name, int &value, int min, int max) {
+	return (ofxSimpleGuiSliderInt &)addControl(* new ofxSimpleGuiSliderInt(name, value, min, max, 0));
 }
 
-ofxSimpleGuiSliderFloat *ofxSimpleGuiPage::addSlider(string name, float *value, float min, float max, float smoothing) {
-	return (ofxSimpleGuiSliderFloat *)addControl(new ofxSimpleGuiSliderFloat(name, value, min, max, smoothing));
+ofxSimpleGuiSliderFloat &ofxSimpleGuiPage::addSlider(string name, float &value, float min, float max, float smoothing) {
+	return (ofxSimpleGuiSliderFloat &)addControl(* new ofxSimpleGuiSliderFloat(name, value, min, max, smoothing));
 }
 
-ofxSimpleGuiSlider2d *ofxSimpleGuiPage::addSlider2d(string name, ofPoint* value, float xmin, float xmax, float ymin, float ymax) {
-	return (ofxSimpleGuiSlider2d *)addControl(new ofxSimpleGuiSlider2d(name, value, xmin, xmax, ymin, ymax));
+ofxSimpleGuiSlider2d &ofxSimpleGuiPage::addSlider2d(string name, ofPoint& value, float xmin, float xmax, float ymin, float ymax) {
+	return (ofxSimpleGuiSlider2d &)addControl(* new ofxSimpleGuiSlider2d(name, value, xmin, xmax, ymin, ymax));
 }
 
-ofxSimpleGuiTitle *ofxSimpleGuiPage::addTitle(string name, bool *value) {
-	return (ofxSimpleGuiTitle *)addControl(new ofxSimpleGuiTitle(name, value));
+ofxSimpleGuiTitle &ofxSimpleGuiPage::addTitle(string name) {
+	return (ofxSimpleGuiTitle &)addControl(* new ofxSimpleGuiTitle(name));
 }
 
-ofxSimpleGuiToggle *ofxSimpleGuiPage::addToggle(string name, bool *value) {
-	return (ofxSimpleGuiToggle *)addControl(new ofxSimpleGuiToggle(name, value));
+ofxSimpleGuiToggle &ofxSimpleGuiPage::addToggle(string name, bool &value) {
+	return (ofxSimpleGuiToggle &)addControl(* new ofxSimpleGuiToggle(name, value));
 }
 
 

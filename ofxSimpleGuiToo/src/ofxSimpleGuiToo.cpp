@@ -48,12 +48,12 @@ ofxSimpleGuiToo::ofxSimpleGuiToo() {
 	doSaveBackup	= false;
 	changePage		= false;
 
-	headerPage	= addPage("Header");
+	headerPage		= &addPage("Header");
 	headerPage->height = config->buttonHeight * 2;
 	headerPage->width = 0;
-	headerPage->addToggle("Auto Save", &doAutoSave);
-	headerPage->addButton("Save Settings", &doSave);
-	headerPage->addButton("Backup XML", &doSaveBackup);
+	headerPage->addToggle("Auto Save", doAutoSave);
+	headerPage->addButton("Save Settings", doSave);
+	headerPage->addButton("Backup XML", doSaveBackup);
 //	headerPage->addFPSCounter();
 
 	addPage();
@@ -261,7 +261,7 @@ void ofxSimpleGuiToo::setPage(int i) {
 
 
 void ofxSimpleGuiToo::setPage(string name) {
-	ofxSimpleGuiPage *page;
+//	ofxSimpleGuiPage *page;
 	for(int i=1; i < pages.size(); i++) {
 		if(name.compare(pages[i]->name) == 0) {
 			setPage(i);
@@ -271,70 +271,70 @@ void ofxSimpleGuiToo::setPage(string name) {
 }
 
 
-ofxSimpleGuiPage *ofxSimpleGuiToo::page(int i) {
-	return pages.at(i);
+ofxSimpleGuiPage &ofxSimpleGuiToo::page(int i) {
+	return *pages.at(i);
 }
 
-ofxSimpleGuiPage *ofxSimpleGuiToo::page(string name) {
-	ofxSimpleGuiPage *page;
-	for(int i=1; i<pages.size(); i++) if(name.compare(pages[i]->name) == 0) return pages[i];
-	return NULL;
+ofxSimpleGuiPage &ofxSimpleGuiToo::page(string name) {
+//	ofxSimpleGuiPage *page;
+	for(int i=1; i<pages.size(); i++) if(name.compare(pages[i]->name) == 0) return *pages[i];
+//	return NULL;
 }
 
 
-ofxSimpleGuiPage *ofxSimpleGuiToo::addPage(string name) {
+ofxSimpleGuiPage &ofxSimpleGuiToo::addPage(string name) {
 	ofxSimpleGuiPage *newPage = new ofxSimpleGuiPage(ofToString(pages.size(), 0) + ": " + name);
 	pages.push_back(newPage);
 	if(name == "") newPage->setName(ofToString(pages.size()-1, 0) + ": Settings");
 	static bool b;
 //	if(pages.size() > 1) headerPage->addTitle(newPage->name);		// if this isn't the first page, add to header
-	if(pages.size() > 1) newPage->addTitle(newPage->name, &changePage);		// if this isn't the first page, add to header
+//	if(pages.size() > 1) newPage->addTitle(newPage->name, &changePage);		// if this isn't the first page, add to header
 	setPage(pages.size() - 1);
-	return newPage;
+	return *newPage;
 }
 
 
-ofxSimpleGuiControl *ofxSimpleGuiToo::addControl(ofxSimpleGuiControl* control) {
+ofxSimpleGuiControl &ofxSimpleGuiToo::addControl(ofxSimpleGuiControl& control) {
 	return pages[currentPage]->addControl(control);
 }
 
-ofxSimpleGuiButton *ofxSimpleGuiToo::addButton(string name, bool *value) {
+ofxSimpleGuiButton &ofxSimpleGuiToo::addButton(string name, bool &value) {
 	return pages[currentPage]->addButton(name, value);
 }
 
-ofxSimpleGuiContent *ofxSimpleGuiToo::addContent(string name, ofBaseDraws *content, float fixwidth) {
+ofxSimpleGuiContent &ofxSimpleGuiToo::addContent(string name, ofBaseDraws &content, float fixwidth) {
 	return pages[currentPage]->addContent(name, content, fixwidth);
 }
 
-ofxSimpleGuiFPSCounter *ofxSimpleGuiToo::addFPSCounter() {
+ofxSimpleGuiFPSCounter &ofxSimpleGuiToo::addFPSCounter() {
 	return pages[currentPage]->addFPSCounter();
 }
 
-//ofxSimpleGuiQuadWarp *ofxSimpleGuiToo::addQuadWarper(string name, float x, float y, float sw, float sh, ofPoint **pts) {
+//ofxSimpleGuiQuadWarp &ofxSimpleGuiToo::addQuadWarper(string name, float x, float y, float sw, float sh, ofPoint &&pts) {
 //	return pages[currentPage]->addQuadWarper(name, x, y, sw, sh, pts);
 //}
 //
-//ofxSimpleGuiMovieSlider *ofxSimpleGuiToo::addMovieSlider(string name, ofVideoPlayer* input) {
+//ofxSimpleGuiMovieSlider &ofxSimpleGuiToo::addMovieSlider(string name, ofVideoPlayer& input) {
 //	return pages[currentPage]->addMovieSlider(name, input);
 //}
 
-ofxSimpleGuiSliderInt *ofxSimpleGuiToo::addSlider(string name, int *value, int min, int max) {
+ofxSimpleGuiSliderInt &ofxSimpleGuiToo::addSlider(string name, int &value, int min, int max) {
 	return pages[currentPage]->addSlider(name, value, min, max);
 }
 
-ofxSimpleGuiSliderFloat *ofxSimpleGuiToo::addSlider(string name, float *value, float min, float max, float smoothing) {
+ofxSimpleGuiSliderFloat &ofxSimpleGuiToo::addSlider(string name, float &value, float min, float max, float smoothing) {
 	return pages[currentPage]->addSlider(name, value, min, max, smoothing);
 }
 
-ofxSimpleGuiSlider2d *ofxSimpleGuiToo::addSlider2d(string name, ofPoint* value, float xmin, float xmax, float ymin, float ymax) {
+ofxSimpleGuiSlider2d &ofxSimpleGuiToo::addSlider2d(string name, ofPoint& value, float xmin, float xmax, float ymin, float ymax) {
 	return pages[currentPage]->addSlider2d(name, value, xmin, xmax, ymin, ymax);
 }
 
-ofxSimpleGuiTitle *ofxSimpleGuiToo::addTitle(string name, bool *value) {
-	return pages[currentPage]->addTitle(name, value);
+ofxSimpleGuiTitle &ofxSimpleGuiToo::addTitle(string name) {
+	return pages[currentPage]->addTitle(name);
 }
 
-ofxSimpleGuiToggle *ofxSimpleGuiToo::addToggle(string name, bool *value) {
+ofxSimpleGuiToggle &ofxSimpleGuiToo::addToggle(string name, bool &value) {
 	return pages[currentPage]->addToggle(name, value);
 }
 
@@ -384,7 +384,7 @@ void ofxSimpleGuiToo::keyPressed(ofKeyEventArgs &e) {
 	headerPage->keyPressed(e);
 	pages[currentPage]->keyPressed(e);
 //	if(doAutoSave) doSave = true;
-	if(doAutoSave) saveToXML(xmlFile);
+//	if(doAutoSave) saveToXML(xmlFile);
 }
 
 void ofxSimpleGuiToo::keyReleased(ofKeyEventArgs &e) {

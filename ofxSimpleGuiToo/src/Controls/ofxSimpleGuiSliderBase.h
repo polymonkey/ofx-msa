@@ -18,13 +18,13 @@ public:
 	Type		oldValue;
 
 	//--------------------------------------------------------------------- construct
-	ofxSimpleGuiSliderBase(string name, Type *value, Type min, Type max, float smoothing = 0) : ofxSimpleGuiControl(name) {
-		this->value = value;
+	ofxSimpleGuiSliderBase(string name, Type &value, Type min, Type max, float smoothing = 0) : ofxSimpleGuiControl(name) {
+		this->value = &value;
 		this->min	= min;
 		this->max	= max;
 
 		lerpSpeed	= 1.0f - smoothing * 0.99;		// so smoothing :1 still results in some motion!
-		targetValue	= *value;
+		targetValue	= value;
 		oldValue	= targetValue;
 		controlType = "SliderBase";
 		setup();

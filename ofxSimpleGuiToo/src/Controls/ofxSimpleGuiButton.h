@@ -14,10 +14,10 @@ public:
 	bool			beenPressed;
 	
 	//---------------------------------------------------------------------
-	ofxSimpleGuiButton(string name, bool *value) : ofxSimpleGuiControl(name) {
+	ofxSimpleGuiButton(string name, bool &value) : ofxSimpleGuiControl(name) {
 		beToggle	= false;
 		beenPressed = false;
-		this->value	= value;
+		this->value	= &value;
 		controlType = "Button";
 		setup();
 	}
@@ -37,6 +37,11 @@ public:
 		XML.addValue("value", getValue());
 		XML.popTag();
 	}
+
+	void keyPressed( int key ) {
+		if(key==keyboardShortcut) toggle();
+	}
+	
 	
 	
 	bool getValue() {

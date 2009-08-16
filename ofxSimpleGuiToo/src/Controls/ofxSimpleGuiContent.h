@@ -11,8 +11,8 @@ public:
 	ofBaseDraws		*content;
 
 	//---------------------------------------------------------------------
-	ofxSimpleGuiContent(string name, ofBaseDraws* content, float fixwidth=250.0) : ofxSimpleGuiControl(name) {
-		this->content = content;
+	ofxSimpleGuiContent(string name, ofBaseDraws& content, float fixwidth=250.0) : ofxSimpleGuiControl(name) {
+		this->content = &content;
 		this->fixwidth  = fixwidth;
 		controlType = "Content";
 		setup();
