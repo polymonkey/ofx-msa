@@ -43,6 +43,8 @@ ofxMSAFluidDrawer::ofxMSAFluidDrawer() {
 	_fluidSolver		= NULL;
 	_didICreateTheFluid	= false;
 	alpha				= 1;
+	doInvert			= false;
+	
 	enableAlpha(false);
 	
 	setDrawMode(FLUID_DRAW_COLOR);
@@ -193,9 +195,17 @@ void ofxMSAFluidDrawer::drawColor(float x, float y, float renderWidth, float ren
 			_fluidSolver->getInfoAtCell(i, j, &vel, &color);
 			float speed2 = fabs(vel.x) * fw + fabs(vel.y) * fh;
 			int speed = (int)MIN(speed2 * 255 * alpha, 255);
-			int r = _pixels[index++] = (unsigned char)MIN(color.x * 255 * alpha, 255);
-			int g = _pixels[index++] = (unsigned char)MIN(color.y * 255 * alpha, 255);
-			int b = _pixels[index++] = (unsigned char)MIN(color.z * 255 * alpha, 255);
+			int r = (unsigned char)MIN(color.x * 255 * alpha, 255);
+			int g = (unsigned char)MIN(color.y * 255 * alpha, 255);
+			int b = (unsigned char)MIN(color.z * 255 * alpha, 255);
+			if(doInvert) {
+				r = 255 - r;
+				g = 255 - g;
+				b = 255 - b;
+			}
+			_pixels[index++] = r;
+			_pixels[index++] = g;
+			_pixels[index++] = b;
 			if(_alphaEnabled) int a = _pixels[index++] = withAlpha ? MAX(b, MAX(r, g)) : 255;
 		}
 	}

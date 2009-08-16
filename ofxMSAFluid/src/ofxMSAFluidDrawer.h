@@ -52,6 +52,7 @@
 class ofxMSAFluidDrawer : public ofBaseDraws {
 public:
 	float alpha;
+	bool doInvert;
 	
 	ofxMSAFluidDrawer();
 	virtual ~ofxMSAFluidDrawer();
