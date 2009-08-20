@@ -32,7 +32,8 @@
 #pragma once
 
 #include "ofMain.h"
-//#include "ofxMSADataProtector.h"
+#include "ofxMSADataProtector.h"
+#include "ofxPerlin.h"
 
 #ifdef OFX_DIRLIST
 #include "ofxDirList.h"
@@ -46,6 +47,7 @@ void msaClear();
 void msaDrawFPS();
 void msaDrawFPS(int x, int y);
 void msaDrawFPS(int color);
+void msaDrawFPSBar(int fpsMult=4);
 
 void msaDumpFPS(float seconds);
 
@@ -132,13 +134,11 @@ public:
 		
 		printf("msaImageManager::setup( %s ) | %i files loaded\n", path.c_str(), numImages);
 		for(int i = 0; i < numImages; i++) {
-#ifdef OFX_MSADATAPROTECTOR
 			if(md5) {
 				ofxMSACheckFileMD5(DIR.getPath(i), md5[i], true);
 			} else {
 				ofxMSACheckFileMD5(DIR.getPath(i), "", false);
 			}
-#endif			
 			string filename = DIR.getPath(i);
 			printf("   loading %s\n", filename.c_str());
 			ofImage img;

@@ -57,6 +57,25 @@ void msaDrawFPS(int color) {
 	ofDrawBitmapString(fpsStr, 20, ofGetHeight()-20);
 }
 
+
+
+void msaDrawFPSBar(int fpsMult) {
+	static float lastTime = 0;
+	float nowTime = ofGetElapsedTimef();
+	float fps = 1.0f/(nowTime - lastTime);
+	lastTime = nowTime;
+	
+	// draw a green bar width of fps
+	ofEnableAlphaBlending();
+	glColor4f(0, 1, 0, 0.5);
+	ofRect(0, 0, fps * fpsMult, 20);
+	glColor4f(0, 0, 0, 1);
+	// draw a line every 10 pixels
+	for(int x=(fpsMult * 10); x<ofGetWidth(); x+=(fpsMult * 10)) {
+		ofLine(x, 0, x, x % (fpsMult * 30) == 0 ? 30 : 20);		// draw a taller line every 30fps
+	}	
+}
+
 void msaDumpFPS(float seconds) {
 	static float lastTimeDumped = 0;
 	float nowTime = ofGetElapsedTimef();
