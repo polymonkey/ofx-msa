@@ -36,7 +36,8 @@
 #include "ofxSimpleGuiToo.h"
 
 //------------------------------------------------------------------------------ constrcutor
-ofxSimpleGuiToo::ofxSimpleGuiToo() {
+//ofxSimpleGuiToo::ofxSimpleGuiToo() {
+void ofxSimpleGuiToo::setup() {
 	config			= &defaultSimpleGuiConfig;
 
 //	guiFocus		= 0;

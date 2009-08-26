@@ -50,8 +50,10 @@ public:
 	int							guiFocus;
 	ofxSimpleGuiConfig			*config;	
 	
-	ofxSimpleGuiToo();
-
+//	ofxSimpleGuiToo();
+	void					setup();
+	
+	
 	void					loadFromXML(string file = OFX_SIMPLEGUITOO_XML_NAME);
 	void					saveToXML(string file = OFX_SIMPLEGUITOO_XML_NAME);	
 	void					setAutoSave(bool b);
