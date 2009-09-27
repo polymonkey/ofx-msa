@@ -96,20 +96,20 @@ void testApp::setup() {
 
 	
 #ifdef USE_GUI 
-	gui.addSlider("fluidCellsX", &fluidCellsX, 20, 400);
-	gui.addButton("resizeFluid", &resizeFluid);
-	gui.addSlider("fs.viscocity", &fluidSolver.viscocity, 0.0, 0.0002, 0.5); 
-	gui.addSlider("fs.colorDiffusion", &fluidSolver.colorDiffusion, 0.0, 0.0003, 0.5); 
-	gui.addSlider("fs.fadeSpeed", &fluidSolver.fadeSpeed, 0.0, 0.1, 0.5); 
-	gui.addSlider("fs.solverIterations", &fluidSolver.solverIterations, 1, 20); 
-	gui.addSlider("fd.drawMode", &fluidDrawer.drawMode, 0, FLUID_DRAW_MODE_COUNT-1); 
-	gui.addToggle("fs.doRGB", &fluidSolver.doRGB); 
-	gui.addToggle("fs.doVorticityConfinement", &fluidSolver.doVorticityConfinement); 
-	gui.addToggle("drawFluid", &drawFluid); 
-	gui.addToggle("drawParticles", &drawParticles); 
-	gui.addToggle("renderUsingVA", &renderUsingVA); 
-	gui.addToggle("fs.wrapX", &fluidSolver.wrap_x); 
-	gui.addToggle("fs.wrapY", &fluidSolver.wrap_y); 
+	gui.addSlider("fluidCellsX", fluidCellsX, 20, 400);
+	gui.addButton("resizeFluid", resizeFluid);
+	gui.addSlider("fs.viscocity", fluidSolver.viscocity, 0.0, 0.0002, 0.5); 
+	gui.addSlider("fs.colorDiffusion", fluidSolver.colorDiffusion, 0.0, 0.0003, 0.5); 
+	gui.addSlider("fs.fadeSpeed", fluidSolver.fadeSpeed, 0.0, 0.1, 0.5); 
+	gui.addSlider("fs.solverIterations", fluidSolver.solverIterations, 1, 20); 
+	gui.addSlider("fd.drawMode", fluidDrawer.drawMode, 0, FLUID_DRAW_MODE_COUNT-1); 
+	gui.addToggle("fs.doRGB", fluidSolver.doRGB); 
+	gui.addToggle("fs.doVorticityConfinement", fluidSolver.doVorticityConfinement); 
+	gui.addToggle("drawFluid", drawFluid); 
+	gui.addToggle("drawParticles", drawParticles); 
+	gui.addToggle("renderUsingVA", renderUsingVA); 
+	gui.addToggle("fs.wrapX", fluidSolver.wrap_x); 
+	gui.addToggle("fs.wrapY", fluidSolver.wrap_y); 
 	gui.setAutoSave(true);
 	gui.loadFromXML();	
 #endif
