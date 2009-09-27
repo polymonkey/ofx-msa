@@ -18,8 +18,9 @@ public:
 		beToggle	= false;
 		beenPressed = false;
 //		this->value	= &value;
+		value		= NULL;
 		controlType = "Title";
-		newColumn	= true;
+//		newColumn	= true;
 		setup();
 	}
 	

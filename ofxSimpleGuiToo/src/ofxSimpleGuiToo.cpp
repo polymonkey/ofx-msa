@@ -36,7 +36,10 @@
 #include "ofxSimpleGuiToo.h"
 
 //------------------------------------------------------------------------------ constrcutor
-//ofxSimpleGuiToo::ofxSimpleGuiToo() {
+ofxSimpleGuiToo::ofxSimpleGuiToo() {
+	config = NULL;
+}
+
 void ofxSimpleGuiToo::setup() {
 	config			= &defaultSimpleGuiConfig;
 
@@ -277,6 +280,8 @@ ofxSimpleGuiPage &ofxSimpleGuiToo::page(int i) {
 }
 
 ofxSimpleGuiPage &ofxSimpleGuiToo::page(string name) {
+	if(!config) setup();
+
 //	ofxSimpleGuiPage *page;
 	for(int i=1; i<pages.size(); i++) if(name.compare(pages[i]->name) == 0) return *pages[i];
 //	return NULL;
@@ -284,6 +289,8 @@ ofxSimpleGuiPage &ofxSimpleGuiToo::page(string name) {
 
 
 ofxSimpleGuiPage &ofxSimpleGuiToo::addPage(string name) {
+	if(!config) setup();
+
 	ofxSimpleGuiPage *newPage = new ofxSimpleGuiPage(ofToString(pages.size(), 0) + ": " + name);
 	pages.push_back(newPage);
 	if(name == "") newPage->setName(ofToString(pages.size()-1, 0) + ": Settings");
@@ -296,18 +303,22 @@ ofxSimpleGuiPage &ofxSimpleGuiToo::addPage(string name) {
 
 
 ofxSimpleGuiControl &ofxSimpleGuiToo::addControl(ofxSimpleGuiControl& control) {
+	if(!config) setup();
 	return pages[currentPage]->addControl(control);
 }
 
 ofxSimpleGuiButton &ofxSimpleGuiToo::addButton(string name, bool &value) {
+	if(!config) setup();
 	return pages[currentPage]->addButton(name, value);
 }
 
 ofxSimpleGuiContent &ofxSimpleGuiToo::addContent(string name, ofBaseDraws &content, float fixwidth) {
+	if(!config) setup();
 	return pages[currentPage]->addContent(name, content, fixwidth);
 }
 
 ofxSimpleGuiFPSCounter &ofxSimpleGuiToo::addFPSCounter() {
+	if(!config) setup();
 	return pages[currentPage]->addFPSCounter();
 }
 
@@ -320,22 +331,27 @@ ofxSimpleGuiFPSCounter &ofxSimpleGuiToo::addFPSCounter() {
 //}
 
 ofxSimpleGuiSliderInt &ofxSimpleGuiToo::addSlider(string name, int &value, int min, int max) {
+	if(!config) setup();
 	return pages[currentPage]->addSlider(name, value, min, max);
 }
 
 ofxSimpleGuiSliderFloat &ofxSimpleGuiToo::addSlider(string name, float &value, float min, float max, float smoothing) {
+	if(!config) setup();
 	return pages[currentPage]->addSlider(name, value, min, max, smoothing);
 }
 
 ofxSimpleGuiSlider2d &ofxSimpleGuiToo::addSlider2d(string name, ofPoint& value, float xmin, float xmax, float ymin, float ymax) {
+	if(!config) setup();
 	return pages[currentPage]->addSlider2d(name, value, xmin, xmax, ymin, ymax);
 }
 
 ofxSimpleGuiTitle &ofxSimpleGuiToo::addTitle(string name) {
+	if(!config) setup();
 	return pages[currentPage]->addTitle(name);
 }
 
 ofxSimpleGuiToggle &ofxSimpleGuiToo::addToggle(string name, bool &value) {
+	if(!config) setup();
 	return pages[currentPage]->addToggle(name, value);
 }
 

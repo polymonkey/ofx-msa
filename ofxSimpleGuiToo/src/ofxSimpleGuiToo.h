@@ -50,7 +50,7 @@ public:
 	int							guiFocus;
 	ofxSimpleGuiConfig			*config;	
 	
-//	ofxSimpleGuiToo();
+	ofxSimpleGuiToo();
 	void					setup();
 	
 	
