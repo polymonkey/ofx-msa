@@ -34,6 +34,7 @@
 #include "hashlibpp.h"
 
 bool ofxMSACheckFileMD5(string filename, string checkAgainstHash, bool bExitOnFalse) {
+	printf("Checking file %s\n", filename.c_str());
     md5wrapper md5;
 	string path = ofToDataPath(filename);
 	string currentHash = md5.getHashFromFile(path);
