@@ -96,11 +96,10 @@ ofxMSAFluidSolver& ofxMSAFluidSolver::setSize(int NX, int NY)
 	_invNY = 1.0f / _NY;
 	_invNumCells = 1.0f / _numCells;
 	
-	//maa	unused
-	//	_width           = getWidth();
-	//	_height          = getHeight();
-	//	_invWidth        = 1.0f/_width;
-	//	_invHeight       = 1.0f/_height;
+	width           = getWidth();
+	height          = getHeight();
+	invWidth        = 1.0f/width;
+	invHeight       = 1.0f/height;
 	
 	reset();
 	return *this;

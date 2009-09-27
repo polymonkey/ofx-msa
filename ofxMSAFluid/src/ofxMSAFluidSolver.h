@@ -198,10 +198,10 @@ public:
 	bool	wrap_y;
 
 	
-//	float width;
-//	float height;
-//	float invWidth;
-//	float invHeight;
+	float width;
+	float height;
+	float invWidth;
+	float invHeight;
 	
 protected:
 	
