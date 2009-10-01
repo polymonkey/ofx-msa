@@ -76,6 +76,6 @@ public:
 
 protected:
 	vector <ofxSimpleGuiControl*>	controls;
-	float ofxSimpleGuiPage::getNextY(float y);
+	float getNextY(float y);
 
 };
